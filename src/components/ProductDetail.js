@@ -1,28 +1,11 @@
-import { useState, useEffect } from "react";
+import useProductDetail from "../utils/useProductDetail";
 import { useParams, Link } from "react-router-dom";
 import Shimmer from "./Shimmer";
 
 const ProductDetail = () => {
-  const [productInfo, setProductInfo] = useState(null);
-
   const { productId } = useParams();
 
-  useEffect(() => {
-    fetchProductDetails();
-  }, [productId]);
-
-  const fetchProductDetails = async () => {
-    try {
-      const response = await fetch(
-        `https://fakestoreapi.com/products/${productId}`,
-      );
-
-      const json = await response.json();
-      setProductInfo(json);
-    } catch (error) {
-      console.error("Error fetching product details:", error);
-    }
-  };
+  const productInfo = useProductDetail(productId);
 
   if (productInfo === null) {
     return (
@@ -50,7 +33,7 @@ const ProductDetail = () => {
           <div className="product-detail-rating">
             <span>⭐ {rating?.rate}</span>
             <span className="rating-count">
-              ({rating?.rate} customer reviews)
+              ({rating?.count} customer reviews)
             </span>
           </div>
           <h2 className="product-detail-price">₹ {Math.round(price * 83)}</h2>

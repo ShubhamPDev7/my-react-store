@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
 import Shimmer from "./Shimmer";
 import { PRODUCT_API } from "../utils/constants";
-import useOnlineStatus from "../utils/useOnlineStatus";
+import useOnlineStatus from "../utils/userOnlineStatus";
 
 const Body = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchText, setSearchText] = useState("");
 
-  const onlineStatus = useOnlineStatus();
+  const isOnline = useOnlineStatus();
 
   useEffect(() => {
     fetchData();
@@ -27,11 +27,10 @@ const Body = () => {
     }
   };
 
-  if (!onlineStatus) {
+  if (!isOnline) {
     return (
-      <div style={{ textAlign: "center", padding: "60px 20px" }}>
-        <h1>🔴 Looks like you're offline!</h1>
-        <p>Please check you internet connection adn try again.</p>
+      <div className="body">
+        <h1>It Looks Like You Are Offline</h1>
       </div>
     );
   }
